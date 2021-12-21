@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.final_project.controller">
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/bg_color.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="island" fitHeight="150.0" fitWidth="200.0" layoutX="798.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Islands6.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="598.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Islands5.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="598.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Tree1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1164.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Tree4.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1066.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Islands7.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="73.0" fitWidth="93.0" layoutX="1066.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/ChestClosed.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="playButton" fitHeight="95.0" fitWidth="362.0" layoutX="90.0" layoutY="130.0" onMouseClicked="#pressPlayButton" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_play-game.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="95.0" fitWidth="362.0" layoutX="90.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_load-game.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="134.0" fitWidth="362.0" layoutX="88.0" layoutY="432.0" onMouseClicked="#showDeathMenu" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_exit-game.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="redOrc" fitHeight="105.0" fitWidth="72.0" layoutX="834.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Helmet3.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

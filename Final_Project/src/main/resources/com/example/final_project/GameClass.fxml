@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.final_project.GameClass">
+   <children>
+      <ImageView fitHeight="736.0" fitWidth="1289.0" layoutX="-8.0" layoutY="-6.0" opacity="0.89" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/bg_color.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
