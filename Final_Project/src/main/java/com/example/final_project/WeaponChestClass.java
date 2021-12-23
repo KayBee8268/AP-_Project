@@ -1,9 +1,15 @@
 package com.example.final_project;
 
-public class WeaponChestClass{
-//    private PositionClass position;
-//
-//    public WeaponChestClass(double x,double y,double xdimension, double ydimension){
-//        position=new PositionClass(x,y,xdimension,ydimension);
-//    }
+public class WeaponChestClass extends ChestClass{
+    private int weaponType;
+
+    public WeaponChestClass(double x,double y,double xDimension, double yDimension,int weapon){
+        super(x,y,xDimension,yDimension);
+        weaponType=weapon;
+    }
+
+    @Override
+    public void awardItem(PlayerClass player) {
+
+    }
 }

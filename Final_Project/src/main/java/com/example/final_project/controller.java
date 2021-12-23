@@ -1,8 +1,5 @@
 package com.example.final_project;
-import javafx.animation.KeyFrame;
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +16,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 public class controller implements Initializable {
 
@@ -29,6 +27,8 @@ public class controller implements Initializable {
 
     @FXML
     private ImageView playButton;
+
+
     public static TranslateTransition moveObjInScreen(Node node , double x, double y, double duration){
         TranslateTransition t = new TranslateTransition();
 
@@ -43,8 +43,6 @@ public class controller implements Initializable {
     public void runTrans(double out){
         moveObjInScreen(redOrc,0,-250,1000).play();
 //        moveObjInScreen(island,350,0,1000).play();
-
-
     }
 
 
@@ -66,6 +64,7 @@ public class controller implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Game.fxml"));
         Parent root1 = fxmlLoader.load();
         Game game = fxmlLoader.getController();
+
         Scene scene1 = new Scene(root1);
         //Scene scene1 = new Scene(root1,1280,720);
         Stage stage = (Stage) ((Node )event.getSource()).getScene().getWindow();
@@ -73,18 +72,38 @@ public class controller implements Initializable {
         game.gameSetUp();
         stage.show();
 
-        game.orcJump();
-        TranslateTransition t =game.jump();
-        scene1.setOnKeyPressed(event1 ->{
-            if (event1.getCode() == KeyCode.SPACE) {
-                game.move('D');
-            }
-        });
-        game.drop(t);
+        class myTimer extends AnimationTimer{
+//             private static int orcjump=1;
+            private static int jump=200;
+            private Dash moveCheck=new Dash(0,0);
 
+            @Override
+            public void handle(long l) {
+                game.orcJump();
+//                orcjump=game.orcJump(orcjump);
+                game.playerJump();
+                scene1.setOnKeyPressed(event1 ->{
+                    if (event1.getCode() == KeyCode.SPACE) {
+                        moveCheck.setDash(200);
+                    }
+                });
+                moveCheck=game.move(moveCheck);
+                game.checkDead();
+                game.checkCoins();
+                game.checkChests();
+                game.checkFallingPlatform();
+
+            }
+        }
+
+        AnimationTimer timer=new myTimer();
+        timer.start();
 
 
     }
+
+
+
     @FXML
     public void showDeathMenu(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DeathMenu.fxml"));
@@ -96,7 +115,5 @@ public class controller implements Initializable {
         stage3.show();
 
     }
-
-
-
 }
+

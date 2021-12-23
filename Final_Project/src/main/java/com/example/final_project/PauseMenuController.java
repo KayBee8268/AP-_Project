@@ -16,10 +16,9 @@ public class PauseMenuController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Game.fxml"));
         Parent root1 = fxmlLoader.load();
 //        controller c = fxmlLoader.getController();
-        Scene scene1 = new Scene(root1,1280,720);
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene1);
-        stage.show();
-        GameClass g = new GameClass(scene1);
+//        Scene scene1 = Game.getScene();
+//        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+//        stage.setScene(scene1);
+//        stage.show();
     }
 }
