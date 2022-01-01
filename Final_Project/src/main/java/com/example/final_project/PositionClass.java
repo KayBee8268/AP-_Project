@@ -1,40 +1,51 @@
 package com.example.final_project;
 
-public class PositionClass {
-    private double x;
-    private double y;
-    private double xdimension;
-    private double ydimension;
+import java.io.Serializable;
+
+public class PositionClass implements Serializable {
+    private double xCoordinate;
+    private double yCoordinate;
+    private double xDimension;
+    private double yDimension;
+
 
     public PositionClass(double xcor,double ycor,double xdim,double ydim){
-        this.x=xcor;
-        this.xdimension=xdim;
+        this.xCoordinate=xcor;
+        this.xDimension=xdim;
 
-        this.y=ycor;
-        this.ydimension=ydim;
+        this.yCoordinate=ycor;
+        this.yDimension=ydim;
     }
 
-    public double getx(){
-        return this.x;
+    public double getXCoordinate() {
+        return xCoordinate;
     }
 
-    public double gety(){
-        return this.y;
+    public double getXDimension() {
+        return xDimension;
     }
 
-    public double getDimensionx(){
-        return this.xdimension;
+    public double getYCoordinate() {
+        return yCoordinate;
     }
 
-    public double getDimensiony(){
-        return this.ydimension;
+    public double getYDimension() {
+        return yDimension;
     }
 
-    public void updatex(double newx){
-        this.x=newx;
-    }
-    public void updatey(double newy){
-        this.y=newy;
+    public void setXCoordinate(double xCoordinate) {
+        this.xCoordinate = xCoordinate;
     }
 
+    public void setXDimension(double xDimension) {
+        this.xDimension = xDimension;
+    }
+
+    public void setYCoordinate(double yCoordinate) {
+        this.yCoordinate = yCoordinate;
+    }
+
+    public void setYDimension(double yDimension) {
+        this.yDimension = yDimension;
+    }
 }

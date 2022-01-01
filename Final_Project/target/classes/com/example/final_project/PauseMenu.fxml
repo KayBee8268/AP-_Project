@@ -13,7 +13,7 @@
             <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/pausemenu.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="86.0" fitWidth="307.0" layoutX="513.0" layoutY="122.0" onMouseClicked="#pressResumButton" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="86.0" fitWidth="307.0" layoutX="513.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_resume.png" />
          </image>
@@ -23,12 +23,12 @@
             <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_save-game.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="94.0" fitWidth="254.0" layoutX="513.0" layoutY="355.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="closeButton" fitHeight="94.0" fitWidth="254.0" layoutX="513.0" layoutY="355.0" onMouseClicked="#pressExitButton" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_exit.png" />
          </image>
       </ImageView>
-      <Label layoutX="494.0" layoutY="28.0" prefHeight="103.0" prefWidth="363.0" text="Pause Menu" textAlignment="JUSTIFY" textOverrun="WORD_ELLIPSIS">
+      <Label alignment="CENTER" layoutX="459.0" layoutY="459.0" prefHeight="103.0" prefWidth="363.0" text="Pause Menu" textAlignment="JUSTIFY" textFill="#81a1ab" textOverrun="WORD_ELLIPSIS">
          <font>
             <Font name="Times New Roman Bold" size="57.0" />
          </font>

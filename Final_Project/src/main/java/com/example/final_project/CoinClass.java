@@ -3,31 +3,31 @@ package com.example.final_project;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class CoinClass {
+import java.io.Serializable;
+
+public class CoinClass extends ObjectClass implements Serializable {
 //    private PositionClass position;
 //
 //    public CoinClass(double x,double y,double xdimension, double ydimension){
 //        position=new PositionClass(x,y,xdimension,ydimension);
 //    }
 
-    private ImageView coin;
+//    private ImageView coin;
 
 
-    public CoinClass(double x,double y,double xDimension, double yDimension){
+    public CoinClass(double xCoordinate,double yCoordinate,double xDimension, double yDimension){
 //        position=new PositionClass(x,y,xDimension,yDimension);
 
-        coin = new ImageView();
         Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Coin.png");
-        coin.setImage(image);
-        coin.setX(x);
-        coin.setY(y);
-
-        coin.setFitHeight(yDimension);
-        coin.setFitWidth(xDimension);
+        super.setObjectImage(image);
+        super.getObjectImage().setX(xCoordinate);
+        super.getObjectImage().setY(yCoordinate);
+        super.getObjectImage().setFitHeight(yDimension);
+        super.getObjectImage().setFitWidth(xDimension);
     }
 
-    public ImageView getImageView() {
-        return coin;
-    }
+//    public ImageView getImageView() {
+//        return coin;
+//    }
 
 }

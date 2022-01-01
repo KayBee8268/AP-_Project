@@ -11,9 +11,13 @@ public class CoinChestClass extends ChestClass{
         coins=data;
     }
 
+    public int getCoins() {
+        return coins;
+    }
+
     @Override
     public void awardItem(PlayerClass player) {
-        player.addCoins(coins);
+        player.setCoins(player.getCoins()+coins);
     }
 }
 

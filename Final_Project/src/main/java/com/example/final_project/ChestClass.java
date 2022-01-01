@@ -3,27 +3,25 @@ package com.example.final_project;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public abstract class ChestClass {
-    protected ImageView chest;
+public abstract class ChestClass extends ObjectClass  {
+//    protected ImageView chest;
     protected boolean isOpen;
 
-    public ChestClass(double x,double y,double xDimension, double yDimension){
+    public ChestClass(double xCoordinate,double yCoordinate,double xDimension, double yDimension){
 //        position=new PositionClass(x,y,xDimension,yDimension);
 
-        chest = new ImageView();
         Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/ChestClosed.png");
-        chest.setImage(image);
-        chest.setX(x);
-        chest.setY(y);
-
-        chest.setFitHeight(yDimension);
-        chest.setFitWidth(xDimension);
+        super.setObjectImage(image);
+        super.getObjectImage().setX(xCoordinate);
+        super.getObjectImage().setY(yCoordinate);
+        super.getObjectImage().setFitHeight(yDimension);
+        super.getObjectImage().setFitWidth(xDimension);
         isOpen=false;
     }
 
     public void setOpen(boolean data){
         Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/ChestOpen.png");
-        chest.setImage(image);
+        super.getObjectImage().setImage(image);
         this.isOpen=data;
     }
 
@@ -33,7 +31,7 @@ public abstract class ChestClass {
     }
     public abstract void awardItem(PlayerClass player);
 
-    public ImageView getImageView() {
-        return chest;
-    }
+//    public ImageView getImageView() {
+//        return chest;
+//    }
 }

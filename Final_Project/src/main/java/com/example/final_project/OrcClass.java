@@ -1,56 +1,68 @@
 package com.example.final_project;
 
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public abstract class OrcClass {
+import java.io.Serializable;
+
+public abstract class OrcClass extends ItemsClass implements Serializable {
     //protected PositionClass position;
     private int val;
+    private int HP;
     private boolean isDead;
-    @FXML
-    protected ImageView orc;
+//    @FXML
+//    protected ImageView orc;
 
     public void jump(){
         if(val>0 && !isDead){
-            orc.setY(orc.getY()-1);
-            val++;
-            if(val==300) val=-1;
+            super.getObjectImage().setY(super.getObjectImage().getY()-2);
+            val+=2;
+            if(val>=250) val=-1;
         }
     }
 
     public void drop(){
         if(val<0 && !isDead) {
-            if (!PlatformClass.checkPlatform(orc)){
-                orc.setY(orc.getY() + 1);
+            if (!PlatformClass.checkPlatform(super.getObjectImage(),4)){
+                super.getObjectImage().setY(super.getObjectImage().getY() + 4);
             }
-            if(PlatformClass.checkPlatform(orc)) val=1;
+            if(PlatformClass.checkPlatform(super.getObjectImage(),4)) val=1;
 
         }
-        if(orc.getY()==720 && !isDead){
-            System.out.println("Orc Dead");
+        if(super.getObjectImage().getY()==720 && !isDead){
             isDead=true;
         }
 
-        if(orc.getY()<720 && isDead){
-            orc.setY(orc.getY() + 5);
+        if(super.getObjectImage().getY()<720 && isDead){
+            super.getObjectImage().setY(super.getObjectImage().getY() + 5);
         }
 
     }
 
+    public int getHP() {
+        return HP;
+    }
 
-    public OrcClass(double xCoordinate ,double yCoordinate,double xDimension,double yDimension,String filepath){
+    public void setHP(int HP) {
+        this.HP = HP;
+        if(HP<=0) isDead=true;
+    }
+
+    public OrcClass(double xCoordinate , double yCoordinate, double xDimension, double yDimension, String filepath){
         //this.position = new PositionClass(xCoordinate,yCoordinate,xDimension,yDimension);
-        orc = new ImageView();
+//        orc = new ImageView();
         Image image = new Image(filepath);
-        orc.setImage(image);
-        orc.setX(xCoordinate);
-        orc.setY(yCoordinate);
-        orc.setPreserveRatio(true);
-        orc.setFitHeight(yDimension);
-        orc.setFitWidth(xDimension);
+        super.setObjectImage(image);
+        super.getObjectImage().setX(xCoordinate);
+        super.getObjectImage().setY(yCoordinate);
+        super.getObjectImage().setPreserveRatio(true);
+        super.getObjectImage().setFitHeight(yDimension);
+        super.getObjectImage().setFitWidth(xDimension);
         val=1;
         isDead=false;
+        HP=100;
 
     }
 
@@ -64,7 +76,7 @@ public abstract class OrcClass {
 
 
 
-    public ImageView getImageView(){
-        return orc;
-    }
+//    public ImageView getImageView(){
+//        return orc;
+//    }
 }
