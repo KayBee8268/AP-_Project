@@ -278,16 +278,23 @@ public class controller implements Initializable {
             //             private static int orcjump=1;
             private static int jump=200;
             private Dash moveCheck=new Dash(0,0);
+            //private int buffer=0;
             @Override
             public void handle(long l) {
-                game.orcJump();
-                game.playerJump();
+//                game.orcJump();
+//                game.playerJump();
+                game.runGame();
+                //if(buffer<0) buffer++;
+               // if(game.platformCheck()) buffer=0;
+
                 gameScene.setOnKeyPressed(event1 ->{
                     if (event1.getCode() == KeyCode.SPACE) {
-                        if(!game.checkPlayerDead()) {
+                        if(!game.checkPlayerDead() && !game.getPauseStatus() && !game.winStatus() ) {
                             moveCheck.setDash(300);
                             game.addscore();
                             game.useWeapon(1);
+                            //buffer++;
+                            //if(buffer>=5) buffer=-75;
                         }
                     }
 
@@ -303,18 +310,19 @@ public class controller implements Initializable {
                         game.selectWeapon(3);
                     }
                     else if (event1.getCode()==KeyCode.P){
+                        game.setPauseStatus(true);
                         game.sceneSetup(player,gameScene,gameStage);
                     }
 
                 });
                 moveCheck=game.move(moveCheck);
-                game.checkDead();
-                game.checkCoins();
-                game.checkChests();
-                game.checkFallingPlatform();
-                game.moveWeapon();
-                game.generate();
-                game.destroy();
+//                game.checkDead();
+//                game.checkCoins();
+//                game.checkChests();
+//                game.checkFallingPlatform();
+//                game.moveWeapon();
+//                game.generate();
+//                game.destroy();
 
 
             }

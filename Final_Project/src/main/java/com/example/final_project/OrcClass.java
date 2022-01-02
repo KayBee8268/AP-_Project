@@ -31,8 +31,10 @@ public abstract class OrcClass extends ItemsClass implements Serializable {
             if(PlatformClass.checkPlatform(super.getObjectImage(),4)) val=1;
 
         }
-        if(super.getObjectImage().getY()==720 && !isDead){
+        if(super.getObjectImage().getY()>=720 && !isDead){
             isDead=true;
+            Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/DeadOrc.jpg");
+            super.getObjectImage().setImage(image);
         }
 
         if(super.getObjectImage().getY()<720 && isDead){
@@ -47,7 +49,11 @@ public abstract class OrcClass extends ItemsClass implements Serializable {
 
     public void setHP(int HP) {
         this.HP = HP;
-        if(HP<=0) isDead=true;
+        if(HP<=0) {
+            isDead=true;
+            Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/DeadOrc.jpg");
+            super.getObjectImage().setImage(image);
+        }
     }
 
     public OrcClass(double xCoordinate , double yCoordinate, double xDimension, double yDimension, String filepath){
@@ -68,6 +74,8 @@ public abstract class OrcClass extends ItemsClass implements Serializable {
 
     public void setisDead(boolean data){
         this.isDead=data;
+        Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/DeadOrc.jpg");
+        super.getObjectImage().setImage(image);
     }
 
     public boolean getisDead(){

@@ -17,16 +17,11 @@
       </ImageView>
       <Group fx:id="deathMenu" layoutX="248.0" layoutY="804.0">
          <children>
-            <ImageView fx:id="deathMenuImage" fitHeight="450.0" fitWidth="852.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="deathMenuImage" fitHeight="450.0" fitWidth="852.0" layoutX="-47.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/DeathScreen.jpg" />
                </image>
             </ImageView>
-            <Label fx:id="totalCoinsLabel" layoutX="46.0" layoutY="8.0" prefHeight="65.0" prefWidth="187.0" text="Total Coins " textFill="#d0e4d2">
-               <font>
-                  <Font name="Mongolian Baiti" size="33.0" />
-               </font>
-            </Label>
             <Label fx:id="deathLabel" layoutX="271.0" layoutY="39.0" prefHeight="109.0" prefWidth="357.0" text="You Died" textFill="#d0e4d2">
                <font>
                   <Font name="Chiller" size="96.0" />
@@ -34,7 +29,7 @@
             </Label>
             <VBox layoutX="325.0" layoutY="275.0" prefHeight="142.0" prefWidth="151.0" spacing="10.0">
                <children>
-                  <ImageView fx:id="ressurectButton" fitHeight="46.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="ressurectButton" fitHeight="46.0" fitWidth="150.0" onMouseClicked="#revive" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/hh.png" />
                      </image>
@@ -46,17 +41,22 @@
                   </ImageView>
                </children>
             </VBox>
-            <Label fx:id="totalScoreLabel" layoutX="315.0" layoutY="11.0" prefHeight="61.0" prefWidth="184.0" text="Total Score" textFill="#d0e4d2">
-               <font>
-                  <Font name="Mongolian Baiti" size="33.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="coinImage" fitHeight="28.0" fitWidth="24.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Coin.png" />
-               </image>
-            </ImageView>
          </children>
       </Group>
+      <Label fx:id="totalCoinsLabel" layoutX="48.0" layoutY="14.0" prefHeight="65.0" prefWidth="187.0" text="Total Coins " textFill="#d0e4d2">
+         <font>
+            <Font name="Mongolian Baiti" size="33.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="coinImage" fitHeight="28.0" fitWidth="24.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Coin.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="totalScoreLabel" layoutX="639.0" layoutY="28.0" prefHeight="61.0" prefWidth="184.0" text="Total Score" textAlignment="CENTER">
+         <font>
+            <Font name="Mongolian Baiti" size="33.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

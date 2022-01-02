@@ -1,6 +1,8 @@
 package com.example.final_project;
 
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 import javafx.animation.KeyFrame;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
@@ -14,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,7 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import javafx.scene.media.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -88,14 +91,19 @@ public class Game implements Serializable,Initializable{
     private ArrayList<ObjectClass> Chest = new ArrayList<>();
     private ArrayList<ObjectClass> coin = new ArrayList<>();
     private ArrayList<ItemsClass> fallingPlatformRecord = new ArrayList<>();
+    private ArrayList<ImageView> perishable=new ArrayList<>();
 //    private ArrayList<ItemsClass> knifes = new ArrayList<>();
     private static ArrayList<Weapon> weapons = new ArrayList<>();
     private ImageView player;
     private ObjectClass Player;
     private double lastX;
     private double lastY;
-    private static int obstacleFrequency;
-    private static boolean obstacle=false;
+    private int obstacleFrequency;
+    private boolean obstacle=false;
+    private boolean pauseStatus;
+    private boolean bossGenerated=false;
+    private ItemsClass bossOrc=null;
+    private boolean won=false;
 
     public ObjectClass getPlayer() {
         return Player;
@@ -191,6 +199,7 @@ public class Game implements Serializable,Initializable{
             @Override
             public void handle(MouseEvent mouseEvent) {
                 gamePane.getChildren().remove(pauseMenuPane);
+                pauseStatus=false;
             }
         };
     }
@@ -226,6 +235,8 @@ public class Game implements Serializable,Initializable{
 
         lastX=900;
         lastY=490;
+
+        pauseStatus=false;
 //        //5
 //        platform = new PlatformClass(1300, 500, 250, 75,2);
 //        platformRecord.add(platform.getPlatform());
@@ -407,6 +418,42 @@ public class Game implements Serializable,Initializable{
         return (int)(Math.random()*100%x);
     }
 
+    public void playCoinSound(){
+        String ssound = "file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/mario_coin_sound.mp3";
+        Media sound = new Media(ssound);
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+
+//        AudioClip buzzer = new AudioClip(getClass().getResource("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/CoinSound.mp3").toExternalForm());
+
+//        String musicFile = "file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/CoinSound.mp3";
+//        Media sound = new Media(new File(musicFile).toURI().toString());
+//        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//        mediaPlayer.play();
+    }
+
+    public void runGame(){
+        if(((PlayerClass)Player).getTotalScore()<200){
+            generate();
+        }
+        else if(((PlayerClass)Player).getTotalScore()>=200 && !bossGenerated && lastX<1280){
+            generateBoss();
+            bossGenerated=true;
+        }
+
+        orcJump();
+        playerJump();
+        checkDead();
+        checkCoins();
+        checkChests();
+        checkFallingPlatform();
+        moveWeapon();
+        destroy();
+        checkWin();
+        setPlayerData();
+        movePerishable();
+    }
+
     public void generate(){
         int minGap=100;
         int minLength=200;
@@ -440,7 +487,8 @@ public class Game implements Serializable,Initializable{
                 y=lastY;
             }
             obstacle=false;
-            PlatformClass platform=new PlatformClass(x,y,minLength+ran(minLength),minHeight+ran(20),ran(7)+1);
+
+            ItemsClass platform=new PlatformClass(x,y,minLength+ran(minLength),minHeight+ran(20),ran(7)+1);
             platformRecord.add(platform);
             ((AnchorPane) s.getRoot()).getChildren().add(platform.getObjectImage());
             lastX=platform.getObjectImage() .getX()+platform.getObjectImage() .getFitWidth();
@@ -452,7 +500,7 @@ public class Game implements Serializable,Initializable{
                 if (spawn == 1) {
                     ObjectClass chest1;
                     if(ran(2)==0) {
-                        chest1 = new CoinChestClass(platform.getObjectImage() .getX() + (platform.getObjectImage() .getFitWidth() / 2) - 37, platform.getObjectImage() .getY() - 50, 75, 50, ran(5));
+                        chest1 = new CoinChestClass(platform.getObjectImage() .getX() + (platform.getObjectImage() .getFitWidth() / 2) - 37, platform.getObjectImage() .getY() - 50, 75, 50, 4+ran(3));
                     }
                     else{
                         chest1 = new WeaponChestClass(platform.getObjectImage() .getX() + (platform.getObjectImage() .getFitWidth() / 2) - 37, platform.getObjectImage() .getY() - 50, 75, 50, ran(2)+1);
@@ -520,6 +568,39 @@ public class Game implements Serializable,Initializable{
         }
     }
 
+    public void generateBoss(){
+
+        int minGap=200;
+        int minLength=1500;
+        int minHeight=40;
+
+        if(lastY>600) lastY=600;
+        if(lastY<400) lastY=450;
+        double x,y;
+
+        if(obstacle==false) {
+            x=1280+ran(minGap);
+            y=lastY+ran(minHeight*2)-minHeight;
+        }
+        else{
+            x=lastX;
+            y=lastY;
+        }
+        obstacle=false;
+
+        ItemsClass platform=new PlatformClass(x,y,minLength+ran(minLength),minHeight+ran(20),ran(7)+1);
+        platformRecord.add(platform);
+        ((AnchorPane) s.getRoot()).getChildren().add(platform.getObjectImage());
+
+
+        int H=200+ran(20);
+        ItemsClass orc=new BossOrc(platform.getObjectImage() .getX()+platform.getObjectImage() .getFitWidth()/2+ran((int) (platform.getObjectImage() .getFitWidth()/2-H)),0,H,H);
+        orcRecord.add(orc);
+        ((AnchorPane) s.getRoot()).getChildren().add(orc.getObjectImage() );
+        bossOrc=orc;
+
+    }
+
     public void destroy(){
         ItemsClass temp1=null;
         for(ItemsClass orc:orcRecord){
@@ -530,6 +611,7 @@ public class Game implements Serializable,Initializable{
         }
         if(temp1!=null) {
             orcRecord.remove(temp1);
+            if(((OrcClass)temp1).getisDead())((PlayerClass)Player).setCoins(((PlayerClass)Player).getCoins()+1);
             ((AnchorPane) s.getRoot()).getChildren().remove(temp1.getObjectImage() );
         }
 
@@ -581,10 +663,64 @@ public class Game implements Serializable,Initializable{
             ((AnchorPane) s.getRoot()).getChildren().remove(temp5.getObjectImage() );
         }
 
+        ImageView temp6=null;
+        for(ImageView temp:perishable) {
+            if (temp.getBoundsInParent().getMaxY() < 0 || temp.getBoundsInParent().getMaxX() < 0) {
+                temp6 = temp;
+                break;
+            }
+        }
+        if(temp5!=null) {
+            perishable.remove(temp6);
+            ((AnchorPane) s.getRoot()).getChildren().remove(temp6 );
+        }
+
+    }
+
+    public boolean platformCheck(){
+        return (PlatformClass.checkPlatform(player,1) || ObstacleClass.checkFallingPlatform(player,1));
     }
 //    public void UseWeapon(){
 //        Player.useWeapon(s);
 //    }
+    @FXML
+    public void revive(){
+        int coinRequired=20;
+
+        if(((PlayerClass)Player).getCoins()>=coinRequired && !((PlayerClass)Player).getRessurected()){
+            callDeathMenuDownwards();
+            ((PlayerClass)Player).setCoins(((PlayerClass)Player).getCoins()-coinRequired);
+            ((PlayerClass)Player).setDead(false);
+            ((PlayerClass)Player).setRessurected(true);
+
+            for(ItemsClass p:platformRecord){
+                if(p.getObjectImage().getX()>400){
+                    double diff=p.getObjectImage().getX()-420;
+                    for(ItemsClass temp: fallingPlatformRecord){
+                        temp.getObjectImage() .setX(temp.getObjectImage() .getX() -diff);
+                    }
+
+                    for(ItemsClass temp: platformRecord){
+                        temp.getObjectImage() .setX(temp.getObjectImage() .getX() -diff);
+                    }
+                    lastX-=diff;
+                    obstacleFrequency-=diff;
+                    for(ObjectClass temp: Chest){
+                        temp.getObjectImage() .setX(temp.getObjectImage() .getX() -diff);
+                    }
+                    for(ObjectClass temp: coin){
+                        temp.getObjectImage() .setX(temp.getObjectImage() .getX() -diff);
+                    }
+
+                    player.setY(0);
+
+                    break;
+                }
+            }
+
+        }
+    }
+
 
     public boolean checkPlayerDead(){
 //        if (Player instanceof PlayerClass){
@@ -605,7 +741,8 @@ public class Game implements Serializable,Initializable{
                 ((PlayerClass) Player).setVal(0);
                 for(ItemsClass temp: orcRecord){
                     temp.getObjectImage() .setX(temp.getObjectImage() .getX() -speed);
-                    if((temp.getObjectImage() .getX()<player.getX()+60) && (temp.getObjectImage() .getX()>player.getX()+40) && (temp.getObjectImage() .getY()<player.getY()+50) && (temp.getObjectImage() .getY()>player.getY()-70)){
+//                    if((temp.getObjectImage() .getX()<=player.getBoundsInParent().getMaxX()+5) && (temp.getObjectImage() .getX()>=player.getBoundsInParent().getMaxX()-5) && (temp.getObjectImage().getBoundsInParent().getMaxY()>player.getY()) && (temp.getObjectImage().getY()<player.getBoundsInParent().getMinY())){
+                      if(player.getBoundsInParent().intersects(temp.getObjectImage().getBoundsInParent())&& player.getY()<temp.getObjectImage().getBoundsInParent().getMaxY() && temp.getObjectImage().getY()<player.getBoundsInParent().getMaxY()){
                         moveCheck.setOrc(temp.getObjectImage() );
                         moveCheck.setPushorc(max(moveCheck.getDash(),50));
                         moveCheck.setDash(0);
@@ -613,6 +750,10 @@ public class Game implements Serializable,Initializable{
     //                if((temp.getObjectImage() .getY()<player.getY()+player.getFitHeight()+3) &&(temp.getObjectImage() .getY()>player.getY()+player.getFitHeight()-3) && (player.getX()+player.getFitWidth()>temp.getObjectImage() .getX()) && (temp.getObjectImage() .getX()+temp.getObjectImage() .getFitWidth()>player.getX())){
     //                    temp.setisDead(true);
     //                }
+                }
+
+                for(ImageView temp: perishable){
+                    temp.setX(temp.getX() -speed);
                 }
 
                 for(ItemsClass temp: fallingPlatformRecord){
@@ -654,8 +795,15 @@ public class Game implements Serializable,Initializable{
 //        }
 //        return false;
 //    }
+    public void movePerishable(){
+        for(ImageView temp: perishable){
+            temp.setY(temp.getY()-5);
+        }
+    }
+
+
     public void addscore(){
-         ((PlayerClass)Player).setTotalScore(1);
+         ((PlayerClass)Player).setTotalScore(((PlayerClass)Player).getTotalScore()+1);
     }
 
     public void checkDead(){
@@ -663,13 +811,15 @@ public class Game implements Serializable,Initializable{
             if(!((PlayerClass)Player).getDead() && !((OrcClass)temp).getisDead()) {
                 if((temp.getObjectImage() .getY()<player.getY()+player.getFitHeight()+5) &&(temp.getObjectImage() .getY()>player.getY()+player.getFitHeight()-5) && (player.getX()+player.getFitWidth()>temp.getObjectImage() .getX()) && (temp.getObjectImage() .getX()+temp.getObjectImage() .getFitWidth()>player.getX())){
                     ((OrcClass)temp).setisDead(true);
+//                    ((PlayerClass)Player).setCoins(((PlayerClass)Player).getCoins()+1);
                 }
                 else if((temp.getObjectImage() .getY()+temp.getObjectImage() .getFitHeight()+5>player.getY()) &&(temp.getObjectImage() .getY()+temp.getObjectImage() .getFitHeight()-5<player.getY()) && (player.getX()+player.getFitWidth()>temp.getObjectImage() .getX()) && (temp.getObjectImage() .getX()+temp.getObjectImage() .getFitWidth()>player.getX())){
                     ((PlayerClass)Player).setDead(true);
                     callDeathMenuUpwards();
                 }
-                else if (player.getBoundsInParent().intersects(temp.getObjectImage() .getBoundsInParent()) && player.getY() > temp.getObjectImage() .getY()) {
+                else if (player.getBoundsInParent().intersects(temp.getObjectImage() .getBoundsInParent()) && player.getBoundsInParent().getMaxY() < temp.getObjectImage() .getY()+4) {
                     ((OrcClass)temp).setisDead(true);
+//                    ((PlayerClass)Player).setCoins(((PlayerClass)Player).getCoins()+1);
 
                 }
             }
@@ -678,6 +828,14 @@ public class Game implements Serializable,Initializable{
             ((PlayerClass)Player).setDead(true);
             callDeathMenuUpwards();
         }
+    }
+
+    public void setPauseStatus(boolean val){
+        pauseStatus=val;
+    }
+
+    public boolean getPauseStatus(){
+        return pauseStatus;
     }
 
     public void playerJump(){
@@ -703,12 +861,23 @@ public class Game implements Serializable,Initializable{
             if(player.getBoundsInParent().intersects(temp.getObjectImage().getBoundsInParent())){
                 ((PlayerClass)Player).setCoins(((PlayerClass)Player).getCoins()+1);
                 ((AnchorPane) s.getRoot()).getChildren().remove(temp.getObjectImage() );
+                playCoinSound();
                 k=temp;
                 break;
             }
         }
         if(k!=null)
             coin.remove(k);
+    }
+
+    public void checkWin(){
+        if(bossOrc!=null && (((BossOrc)bossOrc).getisDead() || (!((BossOrc)bossOrc).getisDead() && bossOrc.getObjectImage().getBoundsInParent().getMaxX()<player.getX()))){
+            won=true;
+        }
+    }
+
+    public boolean winStatus(){
+        return won;
     }
 
     public void checkFallingPlatform(){
@@ -718,11 +887,44 @@ public class Game implements Serializable,Initializable{
     public void checkChests(){
         for(ObjectClass temp:Chest){
             if(player.getBoundsInParent().intersects(temp.getObjectImage() .getBoundsInParent())){
-                if(!((ChestClass)temp).getOpen()) ((ChestClass)temp).awardItem(((PlayerClass)Player));
-                ((ChestClass)temp).setOpen(true);
+                if(!((ChestClass)temp).getOpen()) {
+                    ((ChestClass) temp).awardItem(((PlayerClass) Player));
+                    ((ChestClass) temp).setOpen(true);
+
+                    if(temp instanceof ChestClass){
+                        ImageView ani=new ImageView();
+
+                        if(temp instanceof CoinChestClass){
+                            Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Coin.png");
+                            ani.setImage(image);
+                            ani.setFitHeight(25);
+                            ani.setFitWidth(25);
+                        }
+                        else if(temp instanceof WeaponChestClass){
+                            int type=((WeaponChestClass) temp).getWeaponType();
+                            if(type==1){
+                                Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/WeaponKnife.png");
+                                ani.setImage(image);
+                                ani.setFitHeight(15);
+                                ani.setFitWidth(50);
+                            }
+                            else if(type==2){
+                                Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/WeaponShuriken.png");
+                                ani.setImage(image);
+                                ani.setFitHeight(40);
+                                ani.setFitWidth(40);
+                            }
+                        }
+                        ani.setY(temp.getObjectImage().getBoundsInParent().getCenterY());
+                        ani.setX(temp.getObjectImage().getBoundsInParent().getMinX()+20);
+                        ((AnchorPane) s.getRoot()).getChildren().add(ani);
+                        perishable.add(ani);
+                    }
+                }
             }
         }
     }
+
 
     public void setPlayerData(){
         if(Player instanceof PlayerClass){
@@ -757,16 +959,21 @@ public class Game implements Serializable,Initializable{
             temp.move();
 
             for(ItemsClass orc:orcRecord) {
-                if (orc.getObjectImage().getBoundsInParent().intersects(temp.getImageView() .getBoundsInParent())) {
-                    ((OrcClass)temp).setHP(((OrcClass)temp).getHP()-temp.getDamage());
+                if (orc.getObjectImage().getBoundsInParent().intersects(temp.getImageView().getBoundsInParent())) {
+                    ((OrcClass)orc).setHP(((OrcClass)orc).getHP()-temp.getDamage());
+                    if(((OrcClass)orc).getHP()<=0){
+//                        ((PlayerClass)Player).setCoins(((PlayerClass)Player).getCoins()+1);
+                    }
                     ((AnchorPane) s.getRoot()).getChildren().remove(temp.getImageView() );
                     k=temp;
+                    break;
                 }
             }
 
             if(temp.getDistance()<=0){
                 ((AnchorPane) s.getRoot()).getChildren().remove(temp.getImageView() );
                 k=temp;
+                break;
 
             }
         }
@@ -891,15 +1098,35 @@ public class Game implements Serializable,Initializable{
         Timeline intro = new Timeline(new KeyFrame(Duration.millis(1),e ->{moveDeathMenuUpwards();}));
         intro.play();
 
-    }    public void moveDeathMenuUpwards(){
+    }
+    public void callDeathMenuDownwards(){
+        deathMenu.toFront();
+        setPlayerData();
+        Timeline intro = new Timeline(new KeyFrame(Duration.millis(1),e ->{moveDeathMenuDownwards();}));
+        intro.play();
+
+    }
+    public void moveDeathMenuDownwards(){
+
+        animateObject.straightTransition(ressurectButton,0,750,500).play();
+        animateObject.straightTransition(exitButton,0,750,500).play();
+        animateObject.straightTransition(deathMenuImage,0,750,500).play();
+        animateObject.straightTransition(deathLabel,0,750,500).play();
+       // animateObject.straightTransition(totalCoinsLabel,0,750,500).play();
+        //animateObject.straightTransition(totalScoreLabel,0,750,500).play();
+        //animateObject.straightTransition(coinImage,0,750,500).play();
+
+    }
+
+    public void moveDeathMenuUpwards(){
 
         animateObject.straightTransition(ressurectButton,0,-750,500).play();
         animateObject.straightTransition(exitButton,0,-750,500).play();
         animateObject.straightTransition(deathMenuImage,0,-750,500).play();
         animateObject.straightTransition(deathLabel,0,-750,500).play();
-        animateObject.straightTransition(totalCoinsLabel,0,-750,500).play();
-        animateObject.straightTransition(totalScoreLabel,0,-750,500).play();
-        animateObject.straightTransition(coinImage,0,-750,500).play();
+       // animateObject.straightTransition(totalCoinsLabel,0,-750,500).play();
+       // animateObject.straightTransition(totalScoreLabel,0,-750,500).play();
+        //animateObject.straightTransition(coinImage,0,-750,500).play();
 
     }
     public void loadObjects(String gameFileName) throws IOException, ClassNotFoundException {
