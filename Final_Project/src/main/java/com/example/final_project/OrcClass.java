@@ -31,12 +31,11 @@ public abstract class OrcClass extends ItemsClass implements Serializable {
             if(PlatformClass.checkPlatform(super.getObjectImage(),4)) val=1;
 
         }
-        if(super.getObjectImage().getY()>=720 && !isDead){
-            isDead=true;
+        if(super.getObjectImage().getY()>=720 && !isDead) {
+            isDead = true;
             Image image = new Image("file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/DeadOrc.jpg");
             super.getObjectImage().setImage(image);
         }
-
         if(super.getObjectImage().getY()<720 && isDead){
             super.getObjectImage().setY(super.getObjectImage().getY() + 5);
         }

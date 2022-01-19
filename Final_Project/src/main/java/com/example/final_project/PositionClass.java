@@ -9,13 +9,7 @@ public class PositionClass implements Serializable {
     private double yDimension;
 
 
-    public PositionClass(double xcor,double ycor,double xdim,double ydim){
-        this.xCoordinate=xcor;
-        this.xDimension=xdim;
 
-        this.yCoordinate=ycor;
-        this.yDimension=ydim;
-    }
 
     public double getXCoordinate() {
         return xCoordinate;

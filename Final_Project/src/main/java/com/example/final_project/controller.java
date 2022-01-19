@@ -21,16 +21,19 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-public class controller implements Initializable {
+public class controller implements Initializable, Serializable {
     private ArrayList<String> savedGameList;
     private ArrayList<String> savedPlayerList;
+
     private DataClass dataObject = new DataClass();
     private LoadPlayer loadPlayer = new LoadPlayer();
+
     @FXML
     private ImageView exitButtoninMainMenu;
     @FXML
@@ -65,7 +68,7 @@ public class controller implements Initializable {
     private Game game;
     private Parent gameRoot;
     private Scene gameScene;
-    private PlayerClass player;
+    private ObjectClass player;
     @FXML
     private ImageView island;
     @FXML
@@ -139,9 +142,12 @@ public class controller implements Initializable {
         this.game = fxmlLoader.getController();
         this.gameScene = new Scene(this.gameRoot);
         game.gameSetUp(gameScene);
-        player= (PlayerClass) (game.getPlayer());
-        invalidPlayerNameLabel.setText("");
         callPlayerMenuUpwards();
+
+
+
+        invalidPlayerNameLabel.setText("");
+
         Timeline intro = new Timeline(new KeyFrame(Duration.millis(1),e ->{runTrans();}));
         intro.play();
 //        new SequentialTransition(setDelay(1000),intro);
@@ -158,7 +164,29 @@ public class controller implements Initializable {
 
         }
         else{
-            player.setPlayerName(playerText.getText());
+            boolean flag = false;
+            savedPlayerList = dataObject.getSavedPlayerList();
+            loadPlayer = new LoadPlayer();
+//            System.out.println("gg");
+            String filePath = "C:\\Users\\asus\\IdeaProjects\\Final_Project\\src\\Saved_Players\\"+ playerText.getText()+".txt";
+            for(int i =0;i<savedPlayerList.size();i++){
+                if(savedPlayerList.get(i).equals(playerText.getText())){
+                    try {
+                        player = loadPlayer.getPlayer(filePath);
+                        ((PlayerClass)player).setTotalGamesPlayed(((PlayerClass)player).getTotalGamesPlayed()+1);
+                        flag=true;
+
+                    } catch (IOException e) {
+                        System.out.println("Error");
+                    } catch (ClassNotFoundException e) {
+                        System.out.println("class not found");
+                    }
+                }
+            }
+            if(!flag){
+                player=game.getPlayer();
+                ((PlayerClass)player).setPlayerName(playerText.getText());
+            }
             callPlayerMenuDownwards();
             //System.out.println(player.getPlayerName());
         }
@@ -196,19 +224,79 @@ public class controller implements Initializable {
             throw new NoSavedGameFoundException("No Saved Games are present");
         }
         String[] gameDetails=getGameDetails(selectedGame);
-        System.out.println(gameDetails[0]);
-        System.out.println(gameDetails[1]);
-        System.out.println(gameDetails[2]);
+//        System.out.println(gameDetails[0]);
+//        System.out.println(gameDetails[1]);
+//        System.out.println(gameDetails[2]);
         String gameFilePath = "C:\\Users\\asus\\IdeaProjects\\Final_Project\\src\\Saved_Games\\"+gameDetails[0]+".txt";
         String playerFilePath = "C:\\Users\\asus\\IdeaProjects\\Final_Project\\src\\Saved_Players\\"+gameDetails[1];
-        player=loadPlayer.getPlayer(playerFilePath);
-        game.sceneSetup(player,gameScene,gameStage);
+        game.clearAll();
+        player=(PlayerClass) loadPlayer.getPlayer(playerFilePath);
+        //game.sceneSetup((PlayerClass) player,gameScene,gameStage);
+
         game.loadObjects(gameFilePath);
+        gameStage.setScene(gameScene);
+        gameStage.show();
+
+        class myTimer extends AnimationTimer{
+            //             private static int orcjump=1;
+            private static int jump=200;
+            private Dash moveCheck=new Dash(0,0);
+            //private int buffer=0;
+            @Override
+            public void handle(long l) {
+                game.runGame();
+                //if(buffer<0) buffer++;
+                // if(game.platformCheck()) buffer=0;
+
+                gameScene.setOnKeyPressed(event1 ->{
+                    if (event1.getCode() == KeyCode.SPACE) {
+                        if(!game.checkPlayerDead() && !game.getPauseStatus() && !game.winStatus() ) {
+                            moveCheck.setDash(300);
+                            game.addscore();
+                            game.useWeapon(1);
+                            //buffer++;
+                            //if(buffer>=5) buffer=-75;
+                        }
+                    }
+
+                    else if(event1.getCode()==KeyCode.DIGIT1){
+                        game.selectWeapon(1);
+                    }
+
+                    else if(event1.getCode()==KeyCode.DIGIT2){
+                        game.selectWeapon(2);
+                    }
+
+                    else if(event1.getCode()==KeyCode.DIGIT3){
+                        game.selectWeapon(3);
+                    }
+                    else if (event1.getCode()==KeyCode.P){
+                        game.setPauseStatus(true);
+                        game.setObjectCoordinates();
+                        game.sceneSetup((PlayerClass) player,gameScene,gameStage);
+
+                    }
+
+                });
+                moveCheck=game.move(moveCheck);
+//                game.checkDead();
+//                game.checkCoins();
+//                game.checkChests();
+//                game.checkFallingPlatform();
+//                game.moveWeapon();
+//                game.generate();
+//                game.destroy();
+
+
+            }
+        }
+        AnimationTimer timer=new myTimer();
+        timer.start();
 
     }
     @FXML
     public void pressLoadButton(){
-        System.out.println("pressed load button");
+//        System.out.println("pressed load button");
         loadGameGroup.toFront();
         Timeline intro = new Timeline(new KeyFrame(Duration.millis(1),e ->{moveLoadingMenuDownwards();}));
         intro.play();
@@ -267,13 +355,14 @@ public class controller implements Initializable {
     }
 
     @FXML
-    public void pressPlayButton(MouseEvent event) throws IOException{
+    public void pressPlayButton(MouseEvent event) throws IOException, ClassNotFoundException {
         //Scene scene1 = new Scene(root1,1280,720);
         // gameStage= (Stage) ((Node )event.getSource()).getScene().getWindow();
         //  gameStage.setScene(this.gameScene);
 
         gameStage.setScene(gameScene);
         gameStage.show();
+
         class myTimer extends AnimationTimer{
             //             private static int orcjump=1;
             private static int jump=200;
@@ -281,11 +370,10 @@ public class controller implements Initializable {
             //private int buffer=0;
             @Override
             public void handle(long l) {
-//                game.orcJump();
-//                game.playerJump();
+
                 game.runGame();
                 //if(buffer<0) buffer++;
-               // if(game.platformCheck()) buffer=0;
+                // if(game.platformCheck()) buffer=0;
 
                 gameScene.setOnKeyPressed(event1 ->{
                     if (event1.getCode() == KeyCode.SPACE) {
@@ -311,7 +399,9 @@ public class controller implements Initializable {
                     }
                     else if (event1.getCode()==KeyCode.P){
                         game.setPauseStatus(true);
-                        game.sceneSetup(player,gameScene,gameStage);
+                        game.setObjectCoordinates();
+                        game.sceneSetup((PlayerClass) player,gameScene,gameStage);
+
                     }
 
                 });

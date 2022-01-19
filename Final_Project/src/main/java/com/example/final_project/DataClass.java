@@ -3,7 +3,7 @@ package com.example.final_project;
 import java.io.*;
 import java.util.ArrayList;
 
-public class DataClass {
+public class DataClass implements Serializable {
     private File [] savedFiles;
     private ArrayList<String> playerList;
     private ArrayList<String> gameList;

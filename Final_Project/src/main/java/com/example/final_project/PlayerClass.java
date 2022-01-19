@@ -19,6 +19,13 @@ public class PlayerClass extends ObjectClass implements Serializable {
     private int totalScore;
     private int totalGamesPlayed;
 
+    public int getWeapon1lvl() {
+        return helmet.getWeapon1lvl();
+    }
+
+    public int getWeapon2lvl() {
+        return helmet.getWeapon2lvl();
+    }
     public void selectWeapon(int type){
         if(helmet.getWeapon1lvl()>0 && type ==1){
             helmet.select(1);
@@ -83,6 +90,7 @@ public class PlayerClass extends ObjectClass implements Serializable {
         }
 
     }
+
 
     public void setTotalGamesPlayed(int totalGamesPlayed) {
         this.totalGamesPlayed = totalGamesPlayed;

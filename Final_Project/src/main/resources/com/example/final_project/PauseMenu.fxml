@@ -1,37 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.final_project.PauseMenuController">
+<AnchorPane fx:id="menuPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.final_project.PauseMenuController">
    <children>
       <ImageView fitHeight="746.0" fitWidth="1344.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/pausemenu.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="86.0" fitWidth="307.0" layoutX="513.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="73.0" fitWidth="254.0" layoutX="513.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_resume.png" />
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/finalResume.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="86.0" fitWidth="254.0" layoutX="513.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="86.0" fitWidth="254.0" layoutX="513.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_save-game.png" />
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/finalSave.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="closeButton" fitHeight="94.0" fitWidth="254.0" layoutX="513.0" layoutY="355.0" onMouseClicked="#pressExitButton" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="73.0" fitWidth="254.0" layoutX="514.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_exit.png" />
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/button_main-menu.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="459.0" layoutY="459.0" prefHeight="103.0" prefWidth="363.0" text="Pause Menu" textAlignment="JUSTIFY" textFill="#81a1ab" textOverrun="WORD_ELLIPSIS">
+      <Label alignment="CENTER" layoutX="459.0" layoutY="598.0" prefHeight="103.0" prefWidth="363.0" text="Pause Menu" textAlignment="JUSTIFY" textFill="#e5ff00" textOverrun="WORD_ELLIPSIS">
          <font>
             <Font name="Times New Roman Bold" size="57.0" />
          </font>
       </Label>
+      <Group fx:id="wonMenuGroup" layoutX="515.0" layoutY="-331.0">
+         <children>
+            <ImageView fx:id="backgroundImage" fitHeight="324.0" fitWidth="646.0" layoutX="-163.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/FeedBack.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="gameSavedLabel" layoutX="40.0" layoutY="93.0" text="Game Saved !!">
+               <font>
+                  <Font name="High Tower Text" size="45.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8100000023841858" green="0.24300000071525574" blue="0.7692086100578308" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.6203703880310059" green="0.9430555701255798" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <ImageView fx:id="okayButton" fitHeight="47.0" fitWidth="123.0" layoutX="101.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/finalOkay.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
    </children>
 </AnchorPane>

@@ -2,7 +2,9 @@ package com.example.final_project;
 
 import javafx.scene.image.ImageView;
 
-class Dash{
+import java.io.Serializable;
+
+class Dash implements Serializable {
     private int dash;
     private int pushorc;
     private ImageView orc;

@@ -37,6 +37,12 @@ public class ObstacleClass extends ItemsClass implements Serializable {
         }
         return false;
     }
+    public static void listClear(){
+        falling.clear();
+    }
+    public static void addObstacles(ImageView image){
+        falling.add(image);
+    }
 
     public static void fall(){
         if(isFallen){

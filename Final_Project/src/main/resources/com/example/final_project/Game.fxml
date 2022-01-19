@@ -6,6 +6,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="gamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.final_project.Game">
@@ -17,7 +20,7 @@
       </ImageView>
       <Group fx:id="deathMenu" layoutX="248.0" layoutY="804.0">
          <children>
-            <ImageView fx:id="deathMenuImage" fitHeight="450.0" fitWidth="852.0" layoutX="-47.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="deathMenuImage" fitHeight="450.0" fitWidth="852.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/DeathScreen.jpg" />
                </image>
@@ -27,7 +30,7 @@
                   <Font name="Chiller" size="96.0" />
                </font>
             </Label>
-            <VBox layoutX="325.0" layoutY="275.0" prefHeight="142.0" prefWidth="151.0" spacing="10.0">
+            <VBox layoutX="325.0" layoutY="266.0" prefHeight="108.0" prefWidth="151.0" spacing="10.0">
                <children>
                   <ImageView fx:id="ressurectButton" fitHeight="46.0" fitWidth="150.0" onMouseClicked="#revive" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -41,22 +44,87 @@
                   </ImageView>
                </children>
             </VBox>
+            <Label fx:id="reviveErrorLabel" layoutX="237.0" layoutY="408.0" prefHeight="34.0" prefWidth="363.0" text="Only One Revive Allowed" textFill="#dac1c1">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="29.0" />
+               </font>
+            </Label>
+            <Label fx:id="coinErrorLabel" layoutX="161.0" layoutY="366.0" prefHeight="51.0" prefWidth="494.0" text="Not Enough Coins to Revive" textFill="#ebd4d4">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="36.0" />
+               </font>
+            </Label>
          </children>
       </Group>
-      <Label fx:id="totalCoinsLabel" layoutX="48.0" layoutY="14.0" prefHeight="65.0" prefWidth="187.0" text="Total Coins " textFill="#d0e4d2">
+      <Label fx:id="totalCoinsLabel" layoutX="54.0" layoutY="1.0" prefHeight="65.0" prefWidth="187.0" text="Total Coins " textFill="#d0e4d2">
          <font>
             <Font name="Mongolian Baiti" size="33.0" />
          </font>
       </Label>
-      <ImageView fx:id="coinImage" fitHeight="28.0" fitWidth="24.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="coinImage" fitHeight="28.0" fitWidth="24.0" layoutX="23.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/Coin.png" />
          </image>
       </ImageView>
-      <Label fx:id="totalScoreLabel" layoutX="639.0" layoutY="28.0" prefHeight="61.0" prefWidth="184.0" text="Total Score" textAlignment="CENTER">
+      <Label fx:id="totalScoreLabel" alignment="CENTER" layoutX="548.0" layoutY="3.0" prefHeight="61.0" prefWidth="184.0" text="Total Score">
          <font>
             <Font name="Mongolian Baiti" size="33.0" />
          </font>
       </Label>
+      <ImageView fx:id="ThrowingKnifeImage" fitHeight="34.0" fitWidth="86.0" layoutX="59.0" layoutY="637.0" pickOnBounds="true" preserveRatio="true" rotate="-47.3">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/WeaponKnife.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="shurikenImage" fitHeight="65.0" fitWidth="71.0" layoutX="171.0" layoutY="617.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/WeaponShuriken.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="weaponLevelfirst" layoutX="94.0" layoutY="572.0" text="0" textFill="#ee2525">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="weaponLevelSecond" layoutX="195.0" layoutY="572.0" text="0" textFill="#cd3434">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Group fx:id="wonGroup" layoutX="479.0" layoutY="-353.0">
+         <children>
+            <ImageView fx:id="backgroundImage" fitHeight="324.0" fitWidth="646.0" layoutX="-163.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/FeedBack.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="gameSavedLabel" layoutX="61.0" layoutY="100.0" text="You Won !!">
+               <font>
+                  <Font name="High Tower Text" size="45.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8100000023841858" green="0.24300000071525574" blue="0.7692086100578308" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.6203703880310059" green="0.9430555701255798" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <ImageView fx:id="exitInWonMenu" fitHeight="50.0" fitWidth="132.0" layoutX="94.0" layoutY="221.0" onMouseClicked="#pressExitInWonMenu" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/C:/Users/asus/IdeaProjects/Final_Project/src/assets/assets/won.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
    </children>
 </AnchorPane>

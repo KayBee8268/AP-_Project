@@ -3,7 +3,9 @@ package com.example.final_project;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public abstract class ChestClass extends ObjectClass  {
+import java.io.Serializable;
+
+public abstract class ChestClass extends ObjectClass implements Serializable {
 //    protected ImageView chest;
     protected boolean isOpen;
 

@@ -3,7 +3,9 @@ package com.example.final_project;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ThrowingKnifeClass implements Weapon{
+import java.io.Serializable;
+
+public class ThrowingKnifeClass implements Weapon, Serializable {
     private static int level=0;
     private int distance;
     private static int damage=50;

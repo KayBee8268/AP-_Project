@@ -15,6 +15,12 @@ private int platformType=1;
     public int getPlatformType() {
         return platformType;
     }
+    public static void listClear(){
+        platForm.clear();
+    }
+    public static void addPlatform(ImageView image){
+        platForm.add(image);
+    }
 
     public PlatformClass(double x,double y,double xDimension, double yDimension,int platformType){
 //        position=new PositionClass(x,y,xDimension,yDimension);

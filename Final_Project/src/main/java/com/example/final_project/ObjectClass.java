@@ -4,12 +4,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class ObjectClass {
-    private PositionClass position;
+import java.io.File;
+import java.io.Serial;
+import java.io.Serializable;
+
+public class ObjectClass implements Serializable {
+    private PositionClass position = new PositionClass();
+
+
+    public PositionClass getPosition() {
+        return position;
+    }
 
     private String ObjectName;
-    private ImageView objectImage;
-
+    private transient ImageView objectImage;
     public void display(AnchorPane gamePane) {
         gamePane.getChildren().add(objectImage);
     }
@@ -25,6 +33,14 @@ public class ObjectClass {
     }
     public void setObjectName(String objectName) {
         ObjectName = objectName;
+    }
+    public void makeImage(String FilePath){
+        Image image = new Image(FilePath);
+        setObjectImage(image);
+        getObjectImage().setX(getPosition().getXCoordinate());
+        getObjectImage().setY(getPosition().getYCoordinate());
+        getObjectImage().setFitHeight(getPosition().getYDimension());
+        getObjectImage().setFitWidth(getPosition().getXDimension());
     }
 
 }

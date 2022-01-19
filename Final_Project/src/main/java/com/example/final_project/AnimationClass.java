@@ -4,7 +4,9 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
-public class AnimationClass {
+import java.io.Serializable;
+
+public class AnimationClass implements Serializable {
 
     public TranslateTransition straightTransition(Node node , double x, double y, double duration){
         TranslateTransition t = new TranslateTransition();

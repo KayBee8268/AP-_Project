@@ -35,7 +35,7 @@ public class Willhero extends Application implements Serializable {
         Scene scene = new Scene(root,1280,720);
         stage.setTitle("Will-Hero");
         stage.setScene(scene);
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("file:\\C:\\Users\\ps213\\IdeaProjects\\Final_Project\\src\\assets\\assets\\MainIcon.png")));
+        //stage.getIcons().add(new Image(getClass().getResourceAsStream("file:\\C:\\Users\\asus\\IdeaProjects\\Final_Project\\src\\assets\\assets\\MainIcon.png")));
         stage.getIcons().add(new Image("file:\\C:\\Users\\asus\\IdeaProjects\\Final_Project\\src\\assets\\assets\\MainIcon.png"));
         //   stage.setResizable(false);
 
